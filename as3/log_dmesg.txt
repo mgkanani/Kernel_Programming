@@ -1,0 +1,5 @@
+[ 3543.682862] QUEUE created of size 1048576
+[ 3543.682874] LOADING KERNEL MODULE
+[ 3543.682876] Registering Character device succeed, major=251
+[ 3543.682885] Procfs initialization succeed
+[ 4480.622361] Total read 1947696 	 Total write 1947696

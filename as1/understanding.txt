@@ -1,0 +1,41 @@
+References:-
+[textbook] by Daniel P. Bovet and Marco Cesati , chapter-15 Page Cache.
+http://www.makelinux.net/books/lkd2/ch15lev1sec1
+http://www.tldp.org/LDP/lki/lki-4.html
+
+Page cache contain the pages of recently accessed files. On I/O read operarion, do_generic_read_page() method is invoked. The flow for it is as per below.
+
+do_generic_file_read()
+		|
+	 ------>|[Repeat]
+	|	|
+	|	|
+	|	|
+	|	|[find page label]
+	|	find_get_page() ----> pagecache_get_page() ---> find_get_entry()[to find the page within cache or not]
+	|	|	|			|			|
+	|	|	|			|<----------------------|
+	|	|	|			|
+	|	|	|			|
+	|	|	|			| [page not found]
+	|	|	|			|-----------------> create new cache page based on flags.
+	|	|	|			|
+	|	|	|			| [page found and FGP_ACCESSED flag set]
+	|	|	|			|-----------------> mark_page_accessed()
+	|	|	|			|			    |
+	|	|	|			|		    pnt_pagehit()  --> hook for incrementing page cache hit count.
+	|	|	|	[return page]	|
+	|	|<------|<----------------------|
+	|	|	
+	|	|[page ok label:if page is not null
+	|	| from above method.]
+|-------|------>|----------------> some alignment stuff b/w page-cache page and file off-set. If file is read sequential then increment hit
+|	|	|		   count once.
+|	|	|			|	
+|	--------|------------------------
+|		|
+|		|
+|		|
+|		|[if page==NULL]
+|		|---------------> create new page if allowed or get page by replacing old from cache. Then goto page ok label.
+----------------|

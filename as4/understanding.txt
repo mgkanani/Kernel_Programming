@@ -1,0 +1,30 @@
+Every time context switch happens, schedule() method will be called which is actually calling __schedule() method.
+control-flow of __schedule() method :-
+
+	[disable preemption & lock runqueue ]
+		|
+		|
+	[ handle prev task ]
+		|
+		|
+		|
+	[ pick next task ]
+		|
+		|
+	[ if prev!=next ] -------[False]---->[ unlock runqueue lock]
+		|
+		|
+	     [True]
+		|
+		|
+	[context_switch]-------->[prepare_task_switch]--------> [my_hook_function]
+		^			|     ^				|
+		|		      .....   |			      .....  <-----[other remaining function calls]
+		|			|     |				|
+		 -----------------------       -------------------------
+
+
+When there is any context switch for any cpu, it will call our hook-function. In our hook-function, we are passing some parameters of runqueue and task_struct of previously executed task for generating statistics. Each cpu handles its own runqueue and this runqueue is not accessible in our lodable kernel module since struct rq is not defined in any header file within include directory. So to access the data of this runqueue and cpu-id inside our loadable kernel module, I am using our own structure. When our module is loaded the data required data will be copied into the object of our structure and this structure with "prev"(object of task_struct, last executed process's structure) will be passed to the hook-function.
+
+Note:-
+My implementation is very specific to the total number of cpu less than or equal to 2. But it can be modified accordingly if there are more than 2 cpu available.

@@ -1,0 +1,40 @@
+tree structure
+	|
+	|----scripts:- It contains the scripting files to generate I/O requests. 
+	|	      For generating I/O requests `dd` command has been used.
+	|	|
+	|	|---testing_[123].sh :- creates 80MB,40MB,20MB files(named as rfile_[123]) respectively.
+	|	|	     These files are used for reading and copying data into another files(named wfile_[123]).
+	|	|
+	|	|---print_log.sh :- will print the latest log for inode to hit-count mapping.
+	|
+	|
+	|----module:- Contains the module for generating page-cache hit counts per file.
+	|	|
+	|	|---dummy.c
+	|	|---Makefile
+	|
+	|
+	|----patchfile.patch:- Contain the patch.
+	|
+	|----understanding.txt:- explaining the control flow.
+	|
+	|----Experiment:- contains [read readme.txt]
+				a)data for generating graph of page-cache hits for each file.
+				b)Log from dmesg and output of scripts.
+				c)readme.txt:- how experiment has been performed.
+Note:-
+	Since there can be many file(inode) to page-hit-count mappings after the unloading of module, graph is ploted only for the files used for reading and writting e.i. rfile_1,rfile_2,rfile_3,wfile_1,wfile_2 and wfile_3.
+
+
+
+2)	How to patch:-
+
+	1)extract files from tarball of 3.18.1
+		tar xf ./linux-3.18.1.tar.xz
+	2)change directory
+		cd linux-3.18.1
+	3)applying patch:-
+		patch -p1 < [path for patchfile.patch]
+
+

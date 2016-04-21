@@ -1,0 +1,52 @@
+logs directory contains the output of dmesg in span of module loading and unloading.
+
+prio_mX.c  --> where X is priority of our process in minus. e.g. prio_m10.c will have nice value -10.
+prio_X.c   --> where X is priority of our process in positive.
+
+each prio_[m]X.c files creates 2 children and both are in infinite while loop. I have created 2 children only since I have 2 processors available. Our main process simply runs a for loop in which there are 2 operations addition and modulo and it will iterates 1000000009 times.
+
+each experiment has been carried out 3 times.
+The avarage reading of these experiments has been calculated(manually) and stored in process_stats.tbl file.
+
+######################  process_stats.tbl  #########################
+
+This file contains:- 
+1)the average time slice of the parent process having priority X.
+2)the avarage number of context switches occured for parent process having priority X.
+
+
+By observing the data we can conclude that
+1) as priority of a process decreases the avg time slice of this process also decreases.
+2) as priority of a process decreases the total number of context switches of this process increases.
+
+
+######################  schedule_stats.tbl  #########################
+1)It contains the table regarding the relation between priority and cputime on specific cpu.
+
+by observing the data, we can conclude that priority does not affecting the process distribution on specific cpu. When there is cpu available and there is task to do it will be scheduled irrespective of priority of that process as long as that process is not specific to particular cpus(affinity).
+
+2) priority of process Vs pattern of cpu_id on which process is executed.
+To see this pattern look at the log files. 
+
+lines like last_duration=141568277 on cpu=0 expresses that our process executed on cpu-0 for 141568277 amt of time.
+
+By observing the patterns, It is cleat that for each priority process is migrating in between cpus. Above reason is applicable here.
+
+
+Note:-
+In log file, you can also observe the each time-slice during each context switch on which cpu it has been executed.
+It also contains the cumulative cputime of our process for each cpu.
+
+During this experiment, there is only one process running and ~92 sleeping.
+
+
+
+Steps:-
+	sudo dmesg -C
+	gcc prio_[m]X.c
+	sudo ./a.out   -> this will print pid.
+	sudo pkill a.out # to kill 2 children of prevois process.
+[in another terminal]
+	sudo insmod ./as4.ko pid=XXXXX
+	sudo rmmod as4  #when above a.out returns the prompt
+	dmesg |less # to observe the log.

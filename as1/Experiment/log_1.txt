@@ -1,0 +1,6 @@
+4+0 records in
+4+0 records out
+83886080 bytes (84 MB) copied, 20.6161 s, 4.1 MB/s
+5000000+0 records in
+5000000+0 records out
+80000000 bytes (80 MB) copied, 47.7068 s, 1.7 MB/s

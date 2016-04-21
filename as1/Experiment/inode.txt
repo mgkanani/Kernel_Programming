@@ -1,0 +1,10 @@
+12203 -rwxrwxr-x 1 kp kp       87 Jan 17 11:54 print_log.sh
+12254 -rw-rw-r-- 1 kp kp 83886080 Jan 17 12:15 rfile_1
+12252 -rw-rw-r-- 1 kp kp 41943040 Jan 17 12:15 rfile_2
+12251 -rw-rw-r-- 1 kp kp 20971520 Jan 17 12:15 rfile_3
+12204 -rw-rw-r-- 1 kp kp      473 Jan 17 11:54 testing_1.sh
+12207 -rw-rw-r-- 1 kp kp      469 Jan 17 11:54 testing_2.sh
+12206 -rw-rw-r-- 1 kp kp      468 Jan 17 11:54 testing_3.sh
+12268 -rw-rw-r-- 1 kp kp 80000000 Jan 17 12:16 wfile_1
+12267 -rw-rw-r-- 1 kp kp 40000000 Jan 17 12:16 wfile_2
+12266 -rw-rw-r-- 1 kp kp 20000000 Jan 17 12:16 wfile_3

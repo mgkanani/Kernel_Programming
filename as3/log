@@ -1,0 +1,132 @@
+Initial output of `cat /proc/myprocfs`:-
+
+total read=0 		 total writes=0
+is_empty=true 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=0
+Total_blocks=262144 	 filled_blocks=0 		 avail_blocks=262144
+head_location=0 		 tail_location=0
+
+
+Starting only producer:-
+
+
+total read=0 		 total writes=262144
+is_empty=false 		 is_full=true
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=1048576
+Total_blocks=262144 	 filled_blocks=262144 		 avail_blocks=0
+head_location=0 		 tail_location=0
+
+
+Starting consumer also:-
+
+total read=126143 		 total writes=385091
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=1035792
+Total_blocks=262144 	 filled_blocks=258948 		 avail_blocks=3196
+head_location=122947 		 tail_location=126143
+total read=178508 		 total writes=435274
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=1027064
+Total_blocks=262144 	 filled_blocks=256766 		 avail_blocks=5378
+head_location=173130 		 tail_location=178508
+total read=243561 		 total writes=435274
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=766852
+Total_blocks=262144 	 filled_blocks=191713 		 avail_blocks=70431
+head_location=173130 		 tail_location=243561
+total read=338523 		 total writes=534513
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=783960
+Total_blocks=262144 	 filled_blocks=195990 		 avail_blocks=66154
+head_location=10225 		 tail_location=76379
+total read=417005 		 total writes=610406
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=773604
+Total_blocks=262144 	 filled_blocks=193401 		 avail_blocks=68743
+head_location=86118 		 tail_location=154861
+total read=476003 		 total writes=709539
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=934144
+Total_blocks=262144 	 filled_blocks=233536 		 avail_blocks=28608
+head_location=185251 		 tail_location=213859
+total read=549674 		 total writes=776115
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=905764
+Total_blocks=262144 	 filled_blocks=226441 		 avail_blocks=35703
+head_location=251827 		 tail_location=25386
+total read=704354 		 total writes=947766
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=973648
+Total_blocks=262144 	 filled_blocks=243412 		 avail_blocks=18732
+head_location=161334 		 tail_location=180066
+
+================stoping consumer only:-
+total read=864587 		 total writes=1126731
+is_empty=false 		 is_full=true
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=1048576
+Total_blocks=262144 	 filled_blocks=262144 		 avail_blocks=0
+head_location=78155 		 tail_location=78155
+
+
+================starting again consumer:-
+total read=975208 		 total writes=1126731
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=606092
+Total_blocks=262144 	 filled_blocks=151523 		 avail_blocks=110621
+head_location=78155 		 tail_location=188776
+total read=975208 		 total writes=1126731
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=606092
+Total_blocks=262144 	 filled_blocks=151523 		 avail_blocks=110621
+head_location=78155 		 tail_location=188776
+total read=1024863 		 total writes=1126731
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=407472
+Total_blocks=262144 	 filled_blocks=101868 		 avail_blocks=160276
+head_location=78155 		 tail_location=238431
+total read=1099634 		 total writes=1126731
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=108388
+Total_blocks=262144 	 filled_blocks=27097 		 avail_blocks=235047
+head_location=78155 		 tail_location=51058
+total read=1126731 		 total writes=1126731
+is_empty=true 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=0
+Total_blocks=262144 	 filled_blocks=0 		 avail_blocks=262144
+head_location=78155 		 tail_location=78155
+total read=1315560 		 total writes=1549396
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=935344
+Total_blocks=262144 	 filled_blocks=233836 		 avail_blocks=28308
+head_location=238676 		 tail_location=4840
+
+
+=========================stoping producer only:-
+total read=1606609 		 total writes=1785162
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=714212
+Total_blocks=262144 	 filled_blocks=178553 		 avail_blocks=83591
+head_location=212298 		 tail_location=33745
+total read=1876596 		 total writes=1947696
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=284400
+Total_blocks=262144 	 filled_blocks=71100 		 avail_blocks=191044
+head_location=112688 		 tail_location=41588
+total read=1923188 		 total writes=1947696
+is_empty=false 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=98032
+Total_blocks=262144 	 filled_blocks=24508 		 avail_blocks=237636
+head_location=112688 		 tail_location=88180
+total read=1947696 		 total writes=1947696
+is_empty=true 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=0
+Total_blocks=262144 	 filled_blocks=0 		 avail_blocks=262144
+head_location=112688 		 tail_location=112688
+
+
+=========================Stopping both :-
+total read=1947696 		 total writes=1947696
+is_empty=true 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=0
+Total_blocks=262144 	 filled_blocks=0 		 avail_blocks=262144
+head_location=112688 		 tail_location=112688

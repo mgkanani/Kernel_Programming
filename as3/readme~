@@ -1,0 +1,93 @@
+Structure:-
+	.
+	|-------->Makefile
+	|-------->mychdev.c
+	|-------->script.sh
+	|-------->readme
+	|-------->log (contains the procfs output at different stage of execution for producer-consumer.)
+	|-------->log_dmesg.txt (contains the output of dmesg from module loading to unloading)
+	|-------->prod_cons
+			|-------->producer.c
+			|-------->consumer.c
+
+How to use:-
+	$sudo dmesg -C
+	$make
+	$sudo insmod ./mychdev.ko
+	$dmesg #remember major number.
+	$sh script.sh major_no minor_no #this will create file in /dev
+
+To Read-Write into queue[producer consumer]:-
+	$cd prod_cons
+	$gcc producer.c -o prod
+	$gcc consumer.c -o cons
+	$./prod  #for writing into queue
+	$./cons  #for reading from queue
+
+To print total reads and write count and other details[procfs]:-
+	$cat /proc/myprocfs
+
+sample output:-
+total read=1455653 		 total writes=1455653
+is_empty=true 		 is_full=false
+QUEUE_Size(B)=1048576 		 Filled_Data_size(B)=0
+Total_blocks=262144 	 filled_blocks=0 		 avail_blocks=262144
+head_location=144933 		 tail_location=144933
+
+Here, Total_blocks = QUEUE_Size/4 since each block is of 4 byte. Similarly for filled_blocks=Filled_Dta_size/4.
+head_location and tail_location are current head and tail pointer position in queue(in terms of blocks).
+
+Notes:-
+	Since queue is allowing to write 4 bytes at a time more than that would be ignored. 
+	In this program, it is assumed that every time a integer will be read or written by consumer or producer respectively.
+	For handling data length less than 4 byte, program is filling the data with '\0' this is some kind of padding. If this is not done than
+		while using cat and echo commands for reading-writing purpose, it might not work as per expectation since they are working with character and its size is 1 byte. So if your string is of lenght "4*n - 1" ('\n' for remaining 1 byte) then it will work perfectly. But if not then it will not work as per expectation.
+
+	As a circular queue, kfifo data structure has been used.
+
+
+Understandings:-
+	For certain problems, it is required to read and/or write some data in between kernel space and user space. From kernel space, one can access user space data but from user space, one can not access the data of kernel space. To handle such scenarios, there are multiple ways, like :-
+	-char device or block device
+	-procfs / sysfs
+	-system call
+	-mmap (sharing pages)
+In this module, char device and procfs has been used. User space program can read and write into kernel space through character device. For debugging or generating statistics from kernel data, one migth have to know the current value of some variables. In this case one can use either procfs or sysfs. One can set some kernel variable and also retrieve their current value. In this module procfs has been used for retrieving current value of total reads and write have been occured.
+
+Char device:-
+	Each device is represented as a file structure. This is different from a file on a disk which is represented by a strcture named inode.
+char devices are accessed through device files, usually located in /dev directory. The major number represents which driver handles which device. Minor number is used by driver itself for differentiate devices while handling more than one device of similar type.
+
+Registering Character device:-
+	int register_chrdev(unsigned int major, const char *name, struct file_operations *fops);
+		major:- if you have specific then use it. If it is 0 then kernel will return appropriate on success.
+		name:- name of your device
+		fops:- structure which specifies the handlers to be called on specified events on this device e.g. open,close,read,write etc..
+	Return vlues:-
+		success:- major number
+		failure:- -ve number.
+
+Unregistering device:-
+	int unregister_chrdev(Major, DEVICE_NAME);
+		Major:- major number of our character device.
+		DEVICE_NAME:- name of our character device.
+
+Device file actually available to user space by creating our character device in /dev using mknod and chmod commands.
+
+procfs:-
+Creating proc file entry:-
+        struct proc_dir_entry *proc_create(const char *name, mode_t mode, struct proc_dir_entry *parent, file_operations *proc_fops);
+		name: The name of the proc entry
+		mode: The access mode for proc entry
+		parent: The name of the parent directory under /proc
+		proc_fops: The structure in which the file operations for the proc entry will be created. 
+
+Removing proc file entry:-
+        remove_proc_entry(name,NULL);
+
+
+Implementation details:-
+	In this module character device named "mydev" and procfs file in /proc named as "myprocfs" will be created. kfifo of size 1048576 (i.e. 2^20) bytes have been used as a circular queue. Each entry in circular queue is of size 4 bytes.
+	To ensure consistency in case of multiple reader and writer kfifo's spinlock based methods have been used for putting and getting the data from queue.	kfifo_out_spinlocked and kfifo_in_spinlocked are the methods for that.
+	On char device read if queue is empty then read count is not incremented, this is also applies to write function.
+	In myprocfs file current read count and write count with other queue's information will be displayed.

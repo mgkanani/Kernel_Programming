@@ -1,0 +1,6 @@
+priority	context_switches		avg time slice(ns)
+		(for a process)(avg)
+ -20			164				90895142
+ -10			212				69666838
+   0			1026				14596387
+  10			4395				 4020839
